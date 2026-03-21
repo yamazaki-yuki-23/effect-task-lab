@@ -1,12 +1,9 @@
 {
   "name": "effect-task-lab",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@10.26.2",
   "scripts": {
-    "build": "npm run build -w @effect-task-lab/core && npm run build -w @effect-task-lab/cli",
-    "dev:cli": "npm run dev -w @effect-task-lab/cli"
+    "build": "pnpm -r build",
+    "dev:cli": "pnpm --filter @effect-task-lab/cli dev"
   }
 }
