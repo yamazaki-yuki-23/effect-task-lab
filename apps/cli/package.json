@@ -8,7 +8,8 @@
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@effect-task-lab/core": "workspace:*"
+    "@effect-task-lab/core": "workspace:*",
+    "effect": "^3.21.0"
   },
   "devDependencies": {
     "tsx": "^4.20.5",

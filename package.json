@@ -7,9 +7,12 @@
     "dev:cli": "pnpm --filter @effect-task-lab/cli dev",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "pnpm lint && pnpm -r exec tsc --noEmit"
+    "check": "pnpm lint && pnpm -r exec tsc --noEmit",
+    "knip": "knip"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.8"
+    "@biomejs/biome": "^2.4.8",
+    "knip": "^6.0.1",
+    "typescript": "^5.9.3"
   }
 }
