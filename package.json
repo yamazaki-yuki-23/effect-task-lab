@@ -4,6 +4,12 @@
   "packageManager": "pnpm@10.26.2",
   "scripts": {
     "build": "pnpm -r build",
-    "dev:cli": "pnpm --filter @effect-task-lab/cli dev"
+    "dev:cli": "pnpm --filter @effect-task-lab/cli dev",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "pnpm lint && pnpm -r exec tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.8"
   }
 }
