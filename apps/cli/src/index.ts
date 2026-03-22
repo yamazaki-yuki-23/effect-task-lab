@@ -1,6 +1,9 @@
-import { createTask } from "@effect-task-lab/core";
+import { createTask, listTasks } from "@effect-task-lab/core";
 import { Effect } from "effect";
 
-const task = await Effect.runPromise(createTask("Learn Effect-TS"));
+const firstTask = await Effect.runPromise(createTask("Learn Effect-TS"));
+const secondTask = await Effect.runPromise(createTask("Build a CLI app"));
 
-console.log(task);
+const tasks = await Effect.runPromise(listTasks([firstTask, secondTask]));
+
+console.log(tasks);
