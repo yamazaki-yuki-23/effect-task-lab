@@ -1,7 +1,7 @@
 import {
   completeTask,
   createTask,
-  listTasks,
+  InvalidTaskTitleError,
   TaskNotFoundError,
 } from "@effect-task-lab/core";
 import { Effect, Either } from "effect";
@@ -10,18 +10,17 @@ const program = Effect.gen(function* () {
   const firstTask = yield* createTask("Learn Effect-TS");
   const secondTask = yield* createTask("Build a CLI app");
 
-  return yield* Effect.either(
-    completeTask([firstTask, secondTask], "task-999"),
-  );
+  return yield* completeTask([firstTask, secondTask], "task-999");
 });
 
-const result = await Effect.runPromise(program);
+const result = await Effect.runPromise(Effect.either(program));
 
 if (Either.isLeft(result)) {
-  if (result.left instanceof TaskNotFoundError) {
+  if (result.left instanceof InvalidTaskTitleError) {
+    console.error("Task title must not be blank");
+  } else if (result.left instanceof TaskNotFoundError) {
     console.error(`Task not found: ${result.left.taskId}`);
   }
 } else {
-  const tasks = await Effect.runPromise(listTasks(result.right));
-  console.log(tasks);
+  console.log(result.right);
 }
