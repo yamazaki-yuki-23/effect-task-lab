@@ -5,3 +5,7 @@ export class TaskNotFoundError {
 
   constructor(readonly taskId: TaskId) {}
 }
+
+export class InvalidTaskTitleError {
+  readonly _tag = "InvalidTaskTitleError";
+}

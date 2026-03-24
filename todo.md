@@ -9,6 +9,7 @@
 - `listTasks` ユースケースを実装済み
 - `completeTask` ユースケースを実装済み
 - `TaskNotFoundError` を導入し、`completeTask` が失敗を返せる状態になっている
+- `InvalidTaskTitleError` を導入し、`createTask` が空 title で失敗を返せる状態になっている
 - CLI は `Effect.gen` で複数の Effect を組み立てる形へ更新済み
 - CLI で `completeTask` の失敗をハンドリングし、`TaskNotFoundError` を人間向けメッセージへ変換できる
 - `pnpm dev:cli` で `Task not found: task-999` の表示を確認済み
@@ -19,32 +20,28 @@
 - `Vitest` 導入済み
 - `createTask`, `listTasks`, `completeTask` のユースケーステストを追加済み
 - `Effect.either` を使って失敗ケースを値として検証できる状態
+- `createTask` の成功・失敗テストを通して、手書きバリデーションを Effect の失敗型で表現できている
 - `apps/api` と `apps/web` は未着手
 
 ## Next Task
 
-`createTask` に入力バリデーションを導入し、失敗を型で扱えるようにする。
+CLI で `createTask` の失敗もハンドリングし、失敗型と表示をさらに分離する。
 
 対象ファイル:
 
-- `packages/core/src/create-task.ts`
-- `packages/core/src/task-error.ts`
-- `packages/core/src/create-task.test.ts`
-- 必要なら `apps/cli/src/index.ts`
+- `apps/cli/src/index.ts`
 
 やること:
 
-- `createTask` で空文字や空白だけの title を拒否する
-- `TaskNotFoundError` とは別に、title 用の最小エラー型を追加する
-- `createTask` の戻り値を成功と失敗の両方を持つ `Effect` にする
-- `create-task.test.ts` に失敗ケースを追加する
-- 必要なら CLI でも `createTask` の失敗を表示に変換する
+- `createTask` の失敗も CLI 側で扱う
+- `InvalidTaskTitleError` と `TaskNotFoundError` をそれぞれ人間向けメッセージへ変換する
+- 成功と失敗の分岐を、今の CLI で分かりやすく整理する
+- `Effect.either(...)` か `Effect.match(...)` のどちらを入口で使うか意識して書く
 
 完了条件:
 
-- 空 title で `createTask` が失敗する
-- 失敗が `throw` ではなく失敗型として表現される
-- `create-task.test.ts` に成功と失敗の両ケースがある
+- CLI が `createTask` 失敗時にも適切なメッセージを出せる
+- `core` は失敗型を返すだけで、表示責務は CLI 側に留まる
 - `pnpm check` と `pnpm --filter @effect-task-lab/core test` が通る
 
 ## After That
@@ -53,6 +50,7 @@
 - `createTask` と `completeTask` に入力検証や失敗型を広げる
 - CLI で固定文字列ではなく引数を扱う準備をする
 - `Schema` 導入前に、今の手書きバリデーションとの違いを整理する
+- title を value object 化するかを検討する
 
 ## Notes
 
