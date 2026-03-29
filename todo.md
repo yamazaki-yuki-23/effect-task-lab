@@ -15,6 +15,7 @@
 - CLI で `createTask` の失敗もハンドリングでき、`InvalidTaskTitleError` と `TaskNotFoundError` の両方を表示へ変換できる
 - CLI で `process.argv` を解釈し、`create <title>` の最小コマンド入口を扱える
 - `pnpm dev:cli -- create "Task title"` の形式で CLI を実行できる
+- `index.ts` で引数解釈・表示メッセージ変換・Effect 実行を関数に分離できている
 - `pnpm dev:cli` で `Task not found: task-999` の表示を確認済み
 - `Biome` 導入済み
 - `Knip` 導入済み
@@ -28,7 +29,7 @@
 
 ## Next Task
 
-CLI の責務を整理し、引数解釈・表示・Effect 実行の分離を進める。
+複数コマンドへ進む前提で、`runCommand` へ一般化しやすい CLI 形へ整える。
 
 対象ファイル:
 
@@ -36,16 +37,16 @@ CLI の責務を整理し、引数解釈・表示・Effect 実行の分離を進
 
 やること:
 
-- 引数解釈を関数へ切り出す
-- 表示用メッセージ変換を関数へ切り出す
-- `createTask` のドメインエラーと CLI の usage エラーをどう分けるか整理する
-- 今後コマンド追加しやすい形へ `index.ts` を整える
+- `runCreateCommand` を将来の `runCommand` に拡張しやすい形へ見直す
+- `ParsedCommand` の扱いを `_tag` ベースで揃える
+- usage エラーとドメインエラーの境界をもう一段明確にする
+- 次に `list` / `complete` を足しても switch や分岐が自然に増やせる形へ整える
 
 完了条件:
 
-- `index.ts` が単一の長いトップレベル処理ではなく、役割ごとに分かれている
+- `index.ts` が `parse -> run -> render` の流れで読める
+- `runCreateCommand` の次に `runListCommand` や `runCompleteCommand` を足す位置が明確
 - usage エラーとドメインエラーの境界がコード上で分かる
-- 今後 `list` や `complete` を追加しやすい構造になっている
 - `pnpm check` と `pnpm --filter @effect-task-lab/core test` が通る
 
 ## After That
